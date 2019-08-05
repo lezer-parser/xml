@@ -1,9 +1,9 @@
 @top { misc (doctypeDecl misc)? (element misc)+ }
 
-entity { text | entityReference | characterReference | cdata | element | comment }
+entity { text | entityReference | characterReference | cdata | element | comment | processingInst }
 
 element:element.expression {
-  tag<endTag, :open> entity* closeTag |
+  tag<endTag, :opening> entity* closeTag |
   tag<selfCloseEndTag, :selfClosing>
 }
 
@@ -11,7 +11,7 @@ tag<end, type>:$type.tag {
  startTag space* tagName space* (attribute space*)* end
 }
 
-closeTag:close.tag {
+closeTag:closing.tag {
   startCloseTag space* tagName space* endTag
 }
 
@@ -23,7 +23,7 @@ misc {
   (comment | space | processingInst)*
 }
 
-attributeValue:string.literal.expression { "\"" (attributeContent | entityReference | characterReference)* "\"" }
+attributeValue:attribute.string.literal { "\"" (attributeContent | entityReference | characterReference)* "\"" }
 
 @tokens {
   startTag:tag.open.punctuation { "<" }
@@ -46,9 +46,9 @@ attributeValue:string.literal.expression { "\"" (attributeContent | entityRefere
 
   identifier { nameStart nameChar* }
 
-  tagName:tag.name { identifier }
+  tagName:tag.type.name { identifier }
 
-  attributeName:attribute.name { identifier }
+  attributeName:attribute.property.name { identifier }
 
   attributeContent { [^"&]+ }
 
@@ -58,13 +58,13 @@ attributeValue:string.literal.expression { "\"" (attributeContent | entityRefere
 
   characterReference:character.literal.expression { "&#" [^; ]+ ";" }
 
-  text { [^<&]+ }
+  text:text.literal.expression { [^<&]+ }
 
   comment:block.comment { "<!--" commentContent }
 
-  commentContent { [^-] commentContent | "-" commentDash1 }
-  commentDash1 { [^-] commentContent | "-" commentDash2 }
-  commentDash2 { [^->] commentContent | "-" commentDash2 | ">" }
+  commentContent { [^\-] commentContent | "-" commentDash1 }
+  commentDash1 { [^\-] commentContent | "-" commentDash2 }
+  commentDash2 { [^\->] commentContent | "-" commentDash2 | ">" }
 
   processingInst:processing.instruction.metadata { "<?" piContent }
 

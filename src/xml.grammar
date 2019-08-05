@@ -12,7 +12,7 @@ tag<end, type>:$type.tag {
 }
 
 closeTag:closing.tag {
-  startCloseTag space* tagName space* endTag
+  startCloseTag space* (matchingTagName | nonMatchingTagName) space* endTag
 }
 
 attribute {
@@ -25,14 +25,19 @@ misc {
 
 attributeValue:attribute.string.literal { "\"" (attributeContent | entityReference | characterReference)* "\"" }
 
+@external-tokens closeTagName from "./tokens.js" {
+  matchingTagName:tag.type.name,
+  nonMatchingTagName:tag.mismatch.type.name.error
+}
+
 @tokens {
   startTag:tag.open.punctuation { "<" }
 
-  startCloseTag:tag.open.punctuation { "</" } // FIXME how to tag this?
+  startCloseTag:tag.open.punctuation { "</" }
 
   endTag:tag.close.punctuation { ">" }
 
-  selfCloseEndTag:tag.close.punctuation { "/>" } // FIMXE this too
+  selfCloseEndTag:tag.close.punctuation { "/>" }
 
   nameStart {
     ":" | std.asciiLetter | "_" |

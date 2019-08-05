@@ -1,7 +1,6 @@
 const {parser} = require("../dist/index")
 const {fileTests} = require("lezer-generator/dist/test.js")
 
-const ist = require("ist")
 let fs = require("fs"), path = require("path")
 let caseDir = __dirname
 

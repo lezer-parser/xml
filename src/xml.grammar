@@ -1,4 +1,4 @@
-@top { misc (doctypeDecl misc)? (element misc)+ }
+@top:document.lang=xml { misc (doctypeDecl misc)? (element misc)+ }
 
 entity { text | entityReference | characterReference | cdata | element | comment | processingInst }
 
@@ -90,6 +90,5 @@ attributeValue:attribute.string.literal { "\"" (attributeContent | entityReferen
 }
 
 @tags {
-  @all<:lang=xml>
   @detect-delim
 }

@@ -25,13 +25,13 @@ closing.t(tag.t))
 
 <a foo="bar"/>
 
-==> element.e(selfClosing.t(tag.t, attribute.property.name, equals.punctuation, attribute.string.literal))
+==> element.e(selfClosing.t(tag.t, attribute.definition.property.name, equals.punctuation, attribute.string.literal))
 
 # Multiple attributes
 
 <a x="one" y="two" z="three"></a>
 
-==> element.e(opening.t(tag.t, attribute.p, attribute.s, attribute.p, attribute.s, attribute.p, attribute.s), closing.t(tag.t))
+==> element.e(opening.t(tag.t, attribute.d, attribute.s, attribute.d, attribute.s, attribute.d, attribute.s), closing.t(tag.t))
 
 # Entities
 
@@ -39,7 +39,7 @@ closing.t(tag.t))
 
 ==>
 
-element.e(opening.t(tag.t, attribute.p, attribute.s(entity.literal)), entity.literal, character.literal, closing.t(tag.t))
+element.e(opening.t(tag.t, attribute.d, attribute.s(entity.literal)), entity.literal, character.literal, closing.t(tag.t))
 
 # Doctype
 
@@ -101,7 +101,7 @@ element.e(opening.t(tag.t),
 
 element.e(opening.t(tag.t),
   text.l,
-  element.e(opening.t(tag.t, attribute.p, attribute.s),
+  element.e(opening.t(tag.t, attribute.d, attribute.s),
     text.l
     closing.t(tag.mismatch))
   text.l,

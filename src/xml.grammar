@@ -53,7 +53,7 @@ attributeValue:attribute.string.literal { "\"" (attributeContent | entityReferen
 
   tagName:tag.type.name { identifier }
 
-  attributeName:attribute.property.name { identifier }
+  attributeName:attribute.definition.property.name { identifier }
 
   attributeContent { [^"&]+ }
 

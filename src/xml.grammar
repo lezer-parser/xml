@@ -59,11 +59,11 @@ attributeValue:attribute.string.literal { "\"" (attributeContent | entityReferen
 
   is:equals.punctuation { "=" }
 
-  entityReference:entity.literal.expression { "&" [^#; ]+ ";" }
+  entityReference:entity.reference.expression { "&" [^#; ]+ ";" }
 
-  characterReference:character.literal.expression { "&#" [^; ]+ ";" }
+  characterReference:character.reference.expression { "&#" [^; ]+ ";" }
 
-  text:text.literal.expression { [^<&]+ }
+  text:text.expression { [^<&]+ }
 
   comment:block.comment { "<!--" commentContent }
 

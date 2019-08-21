@@ -2,13 +2,17 @@
 
 <foo/>
 
-==> element.expression(selfClosing.tag(tag.open, tag.type.name, tag.close))
+==>
+
+Document(Element(SelfClosingTag(StartTag,TagName,SelfCloseEndTag)))
 
 # Regular tag
 
 <foo>bar</foo>
 
-==> element.expression(opening.tag(tag.open, tag.type.name, tag.close), text.e, closing.tag(tag.open, tag.type.name, tag.close))
+==>
+
+Document(Element(OpenTag(StartTag,TagName,EndTag),Text,CloseTag(StartCloseTag,TagName,EndTag)))
 
 # Nested tag
 
@@ -16,22 +20,30 @@
 
 ==>
 
-element.e(opening.t(tag.t),
-  element.e(opening.t(tag.t), text.e, closing.t(tag.t)),
-  element.e(selfClosing.t(tag.t)),
-closing.t(tag.t))
+Document(Element(OpenTag(StartTag,TagName,EndTag),
+  Element(OpenTag(StartTag,TagName,EndTag),Text,CloseTag(StartCloseTag,TagName,EndTag)),
+  Element(SelfClosingTag(StartTag,TagName,SelfCloseEndTag)),
+CloseTag(StartCloseTag,TagName,EndTag)))
 
 # Attribute
 
 <a foo="bar"/>
 
-==> element.e(selfClosing.t(tag.t, attribute.definition.property.name, equals.punctuation, attribute.string.literal))
+==>
+
+Document(Element(SelfClosingTag(StartTag,TagName,Attribute(AttributeName,Is,AttributeValue),SelfCloseEndTag)))
 
 # Multiple attributes
 
 <a x="one" y="two" z="three"></a>
 
-==> element.e(opening.t(tag.t, attribute.d, attribute.s, attribute.d, attribute.s, attribute.d, attribute.s), closing.t(tag.t))
+==>
+
+Document(Element(OpenTag(StartTag,TagName,
+  Attribute(AttributeName,Is,AttributeValue),
+  Attribute(AttributeName,Is,AttributeValue),
+  Attribute(AttributeName,Is,AttributeValue),EndTag),
+CloseTag(StartCloseTag,TagName,EndTag)))
 
 # Entities
 
@@ -39,7 +51,11 @@ closing.t(tag.t))
 
 ==>
 
-element.e(opening.t(tag.t, attribute.d, attribute.s(entity.reference)), entity.reference, character.reference, closing.t(tag.t))
+Document(Element(OpenTag(StartTag,TagName,
+  Attribute(AttributeName,Is,AttributeValue(EntityReference)),EndTag),
+  EntityReference,
+  CharacterReference,
+CloseTag(StartCloseTag,TagName,EndTag)))
 
 # Doctype
 
@@ -48,8 +64,7 @@ element.e(opening.t(tag.t, attribute.d, attribute.s(entity.reference)), entity.r
 
 ==>
 
-doctype.declaration.metadata,
-element.e(selfClosing.t(tag.t))
+Document(DoctypeDecl,Element(SelfClosingTag(StartTag,TagName,SelfCloseEndTag)))
 
 # Processing instructions
 
@@ -57,8 +72,7 @@ element.e(selfClosing.t(tag.t))
 
 ==>
 
-processing.instruction.metadata,
-element.e(opening.t(tag.t), processing.instruction.metadata, closing.t(tag.t))
+Document(ProcessingInst,Element(OpenTag(StartTag,TagName,EndTag),ProcessingInst,CloseTag(StartCloseTag,TagName,EndTag)))
 
 # Comments
 
@@ -67,14 +81,15 @@ element.e(opening.t(tag.t), processing.instruction.metadata, closing.t(tag.t))
 
 ==>
 
-block.comment,
-element.e(opening.t(tag.t), block.comment, text.e, closing.t(tag.t))
+Document(Comment,Element(OpenTag(StartTag,TagName,EndTag),Comment,Text,CloseTag(StartCloseTag,TagName,EndTag)))
 
 # Mismatched tag
 
 <a></b>
 
-==> element.e(opening.t(tag.t), closing.t(tag.mismatch))
+==>
+
+Document(Element(OpenTag(StartTag,TagName,EndTag),CloseTag(StartCloseTag,TagName,EndTag)))
 
 # Nested mismatched tag
 
@@ -82,11 +97,11 @@ element.e(opening.t(tag.t), block.comment, text.e, closing.t(tag.t))
 
 ==>
 
-element.e(opening.t(tag.t),
-  element.e(opening.t(tag.t),
-    element.e(opening.t(tag.t), closing.t(tag.t)),
-    closing.t(tag.mismatch)),
-  closing.t(tag.t))
+Document(Element(OpenTag(StartTag,TagName,EndTag),
+  Element(OpenTag(StartTag,TagName,EndTag),
+    Element(OpenTag(StartTag,TagName,EndTag),CloseTag(StartCloseTag,TagName,EndTag)),
+  CloseTag(StartCloseTag,TagName,EndTag)),
+CloseTag(StartCloseTag,TagName,EndTag)))
 
 # Mismatched tag with whitespace
 
@@ -99,10 +114,8 @@ element.e(opening.t(tag.t),
 
 ==>
 
-element.e(opening.t(tag.t),
-  text.e,
-  element.e(opening.t(tag.t, attribute.d, attribute.s),
-    text.e
-    closing.t(tag.mismatch))
-  text.e,
-  closing.tag(tag.t))
+Document(Element(OpenTag(StartTag,TagName,EndTag),
+  Text,
+  Element(OpenTag(StartTag,TagName,Attribute(AttributeName,Is,AttributeValue),EndTag),Text,CloseTag(StartCloseTag,TagName,EndTag)),
+  Text,
+CloseTag(StartCloseTag,TagName,EndTag)))

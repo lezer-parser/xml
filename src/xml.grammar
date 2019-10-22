@@ -1,4 +1,4 @@
-@top[name=Document,lang=xml] { misc (DoctypeDecl misc)? (Element misc)+ }
+@top[name=Document] { misc (DoctypeDecl misc)? (Element misc)+ }
 
 entity { Text | EntityReference | CharacterReference | Cdata | Element | Comment | ProcessingInst }
 

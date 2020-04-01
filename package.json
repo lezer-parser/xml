@@ -2,8 +2,14 @@
   "name": "lezer-xml",
   "version": "0.8.0",
   "description": "lezer-based XML grammar",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
+  "type": "module",
+  "exports": {
+    "import": "./dist/index.es.js",
+    "require": "./dist/index.cjs"
+  },
   "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
   "author": "Marijn Haverbeke <marijnh@gmail.com>",
   "license": "MIT",
   "devDependencies": {

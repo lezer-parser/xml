@@ -1,3 +1,13 @@
+## 0.9.0 (2020-06-08)
+
+### Breaking changes
+
+Upgrade to 0.9 parser serialization
+
+### New features
+
+Tag start/end tokens now have `NodeProp.openedBy`/`closedBy` props.
+
 ## 0.8.2 (2020-04-09)
 
 ### Bug fixes

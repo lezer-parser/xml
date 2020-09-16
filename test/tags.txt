@@ -89,7 +89,7 @@ Document(Comment,Element(OpenTag(StartTag,TagName,EndTag),Comment,Text,CloseTag(
 
 ==>
 
-Document(Element(OpenTag(StartTag,TagName,EndTag),CloseTag(StartCloseTag,TagName,EndTag)))
+Document(Element(OpenTag(StartTag,TagName,EndTag),CloseTag(StartCloseTag,MismatchedTagName,EndTag)))
 
 # Nested mismatched tag
 
@@ -100,7 +100,7 @@ Document(Element(OpenTag(StartTag,TagName,EndTag),CloseTag(StartCloseTag,TagName
 Document(Element(OpenTag(StartTag,TagName,EndTag),
   Element(OpenTag(StartTag,TagName,EndTag),
     Element(OpenTag(StartTag,TagName,EndTag),CloseTag(StartCloseTag,TagName,EndTag)),
-  CloseTag(StartCloseTag,TagName,EndTag)),
+  CloseTag(StartCloseTag,MismatchedTagName,EndTag)),
 CloseTag(StartCloseTag,TagName,EndTag)))
 
 # Mismatched tag with whitespace
@@ -116,6 +116,8 @@ CloseTag(StartCloseTag,TagName,EndTag)))
 
 Document(Element(OpenTag(StartTag,TagName,EndTag),
   Text,
-  Element(OpenTag(StartTag,TagName,Attribute(AttributeName,Is,AttributeValue),EndTag),Text,CloseTag(StartCloseTag,TagName,EndTag)),
+  Element(OpenTag(StartTag,TagName,Attribute(AttributeName,Is,AttributeValue),EndTag),
+    Text,
+    CloseTag(StartCloseTag,MismatchedTagName,EndTag)),
   Text,
 CloseTag(StartCloseTag,TagName,EndTag)))

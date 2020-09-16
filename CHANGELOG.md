@@ -1,3 +1,9 @@
+## 0.10.1 (2020-09-16)
+
+### New features
+
+Make sure mismatched close tags name tokens have a different name than matching ones.
+
 ## 0.10.0 (2020-08-07)
 
 ### Breaking changes

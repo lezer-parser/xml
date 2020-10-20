@@ -30,8 +30,8 @@ misc {
 AttributeValue { "\"" (attributeContent | EntityReference | CharacterReference)* "\"" }
 
 @external tokens closeTagName from "./tokens.js" {
-  MatchingTagName[name=TagName],
-  nonMatchingTagName[name=MismatchedTagName]
+  MatchingTagName[@name=TagName],
+  nonMatchingTagName[@name=MismatchedTagName]
 }
 
 @tokens {

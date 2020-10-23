@@ -1,6 +1,16 @@
 @top Document { misc (DoctypeDecl misc)? (Element misc)+ }
 
-entity { Text | EntityReference | CharacterReference | Cdata | Element | Comment | ProcessingInst }
+entity {
+  Text |
+  EntityReference |
+  CharacterReference |
+  Cdata |
+  Element |
+  Comment |
+  ProcessingInst |
+  MismatchedCloseTag |
+  incompleteStartCloseTag
+}
 
 Element {
   OpenTag entity* CloseTag |
@@ -16,7 +26,11 @@ SelfClosingTag {
 }
 
 CloseTag[openedBy=OpenTag] {
-  StartCloseTag space* (MatchingTagName | nonMatchingTagName) space* EndTag
+  StartCloseTag space* TagName space* EndTag
+}
+
+MismatchedCloseTag {
+  mismatchedStartCloseTag space* TagName space* EndTag
 }
 
 Attribute {
@@ -29,16 +43,14 @@ misc {
 
 AttributeValue { "\"" (attributeContent | EntityReference | CharacterReference)* "\"" }
 
-@external tokens closeTagName from "./tokens.js" {
-  MatchingTagName[@name=TagName],
-  nonMatchingTagName[@name=MismatchedTagName]
+@external tokens startTag from "./tokens.js" {
+  StartTag[closedBy="SelfCloseEndTag EndTag"]
+  StartCloseTag
+  mismatchedStartCloseTag[@name=StartCloseTag]
+  incompleteStartCloseTag[@name=StartCloseTag]
 }
 
 @tokens {
-  StartTag[closedBy="SelfCloseEndTag EndTag"] { "<" }
-
-  StartCloseTag[closedBy=EndTag] { "</" }
-
   EndTag[openedBy="StartTag StartCloseTag"] { ">" }
 
   SelfCloseEndTag[openedBy=StartTag] { "/>" }
@@ -87,8 +99,6 @@ AttributeValue { "\"" (attributeContent | EntityReference | CharacterReference)*
   cdataContent { ![\]] cdataContent | "]" cdataBracket1 }
   cdataBracket1 { ![\]] cdataContent | "]" cdataBracket2 }
   cdataBracket2 { ![\]>] cdataContent | "]" cdataBracket2 | ">" }
-
-  @precedence { Comment, Cdata, ProcessingInst, DoctypeDecl, StartTag }
 
   space { (" " | "\t" | "\r" | "\n")+ }
 }

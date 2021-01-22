@@ -1,8 +1,8 @@
 /* Hand-written tokenizer for XML tag matching. */
 
 import {ExternalTokenizer} from "lezer"
-import {StartTag, StartCloseTag, mismatchedStartCloseTag, incompleteStartCloseTag,
-        Element} from "./parser.terms.js"
+import {StartTag, StartCloseTag, mismatchedStartCloseTag, incompleteStartCloseTag, Element,
+        commentContent as _commentContent, piContent as _piContent, cdataContent as _cdataContent} from "./parser.terms.js"
 
 function nameChar(ch) {
   return ch == 45 || ch == 46 || ch == 58 || ch >= 65 && ch <= 90 || ch == 95 || ch >= 97 && ch <= 122 || ch >= 161
@@ -44,3 +44,26 @@ export const startTag = new ExternalTokenizer((input, token, stack) => {
     return token.accept(StartTag, token.start + 1)
   }
 }, {contextual: true})
+
+function scanTo(type, end) {
+  return new ExternalTokenizer((input, token, stack) => {
+    let pos = token.start, endPos = 0
+    for (;;) {
+      let next = input.get(pos)
+      if (next < 0) break
+      pos++
+      if (next == end.charCodeAt(endPos)) {
+        endPos++
+        if (endPos == end.length) { pos -= end.length; break }
+      } else {
+        endPos = 0
+      }
+    }
+    if (pos > token.start) token.accept(type, pos)
+  })
+}
+
+
+export const commentContent = scanTo(_commentContent, "-->")
+export const piContent = scanTo(_piContent, "?>")
+export const cdataContent = scanTo(_cdataContent, "?>")

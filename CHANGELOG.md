@@ -1,3 +1,9 @@
+## 0.13.2 (2021-01-22)
+
+### Bug fixes
+
+Make comments, processing instructions, and cdata consist of multiple tokens to avoid freezing the parser on huge inputs with unfinished elements of those types.
+
 ## 0.13.1 (2020-12-04)
 
 ### Bug fixes

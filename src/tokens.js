@@ -44,8 +44,8 @@ export const elementContext = new ContextTracker({
     return type == StartTag || type == OpenTag
       ? new ElementContext(tagNameAfter(input, stack.pos - node.length + 1) || "", context) : context
   },
-  // Always returns 0 to avoid interfering with node reuse.
-  hash() { return 0 }
+  hash(context) { return context ? context.hash : 0 },
+  strict: false
 })
 
 export const startTag = new ExternalTokenizer((input, token, stack) => {

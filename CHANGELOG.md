@@ -1,3 +1,9 @@
+## 0.13.4 (2021-02-17)
+
+### Bug fixes
+
+Fix an issue that cause improper tokenizing during some types of error recovery.
+
 ## 0.13.3 (2021-02-17)
 
 ### Bug fixes

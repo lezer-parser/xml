@@ -49,6 +49,8 @@ ProcessingInst { "<?" piContent* "?>" }
 
 Cdata { cdataStart cdataContent* "]]>" }
 
+@context elementContext from "./tokens.js"
+
 @external tokens startTag from "./tokens.js" {
   StartTag[closedBy="SelfCloseEndTag EndTag"]
   StartCloseTag

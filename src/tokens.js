@@ -1,7 +1,7 @@
 /* Hand-written tokenizer for XML tag matching. */
 
-import {ExternalTokenizer} from "lezer"
-import {StartTag, StartCloseTag, mismatchedStartCloseTag, incompleteStartCloseTag, Element,
+import {ExternalTokenizer, ContextTracker} from "lezer"
+import {StartTag, StartCloseTag, mismatchedStartCloseTag, incompleteStartCloseTag, Element, OpenTag,
         commentContent as _commentContent, piContent as _piContent, cdataContent as _cdataContent} from "./parser.terms.js"
 
 function nameChar(ch) {
@@ -12,41 +12,60 @@ function isSpace(ch) {
   return ch == 9 || ch == 10 || ch == 13 || ch == 32
 }
 
-let elementQuery = [Element], openAt = 0
-
-function parentElement(input, stack, pos, len) {
-  openAt = stack.startOf(elementQuery, pos)
-  if (openAt == null) return null
-  let match = /^<\s*([\.\-\:\w\xa1-\uffff]+)/.exec(input.read(openAt, openAt + len + 10))
-  return match ? match[1].toLowerCase() : ""
+let cachedName = null, cachedInput = null, cachedPos = 0
+function tagNameAfter(input, pos) {
+  if (cachedPos == pos && cachedInput == input) return cachedName
+  let next = input.get(pos)
+  while (isSpace(next)) next = input.get(++pos)
+  let start = pos
+  while (nameChar(next)) next = input.get(++pos)
+  // Undefined to signal there's a <? or <!, null for just missing
+  cachedInput = input; cachedPos = pos
+  return cachedName = pos > start ? input.read(start, pos).toLowerCase() : null
 }
+
+function ElementContext(name, parent) {
+  this.name = name
+  this.parent = parent
+  this.hash = parent ? parent.hash : 0
+  for (let i = 0; i < name.length; i++) this.hash += (this.hash << 4) + name.charCodeAt(i) + (name.charCodeAt(i) << 8)
+}
+
+export const elementContext = new ContextTracker({
+  start: null,
+  shift(context, term, input, stack) {
+    return term == StartTag ? new ElementContext(tagNameAfter(input, stack.pos) || "", context) : context
+  },
+  reduce(context, term) {
+    return term == Element && context ? context.parent : context
+  },
+  reuse(context, node, input, stack) {
+    let type = node.type.id
+    return type == StartTag || type == OpenTag
+      ? new ElementContext(tagNameAfter(input, stack.pos - node.length + 1) || "", context) : context
+  },
+  // Always returns 0 to avoid interfering with node reuse.
+  hash() { return 0 }
+})
 
 export const startTag = new ExternalTokenizer((input, token, stack) => {
   let pos = token.start
   if (input.get(pos++) != 60 /* '<' */) return
-  let next = input.get(pos++)
+  let next = input.get(pos)
   if (next == 47 /* '/' */) {
-    let tokEnd = pos
-    while (isSpace(input.get(pos))) pos++
-    let nameStart = pos
-    while (nameChar(input.get(pos))) pos++
-    if (pos == nameStart) return token.accept(incompleteStartCloseTag, tokEnd)
-
-    let name = input.read(nameStart, pos)
-    let parent = parentElement(input, stack, stack.pos + 1, name.length)
-    if (name == parent) return token.accept(StartCloseTag, tokEnd)
-    while (parent != null) {
-      parent = parentElement(input, stack, openAt, name.length)
-      if (parent == name) return
-    }
-    token.accept(mismatchedStartCloseTag, tokEnd)
+    pos++
+    let name = tagNameAfter(input, pos)
+    if (!name) return token.accept(incompleteStartCloseTag, pos)
+    if (stack.context && name == stack.context.name) return token.accept(StartCloseTag, pos)
+    for (let cx = stack.context; cx; cx = cx.parent) if (cx.name == name) return
+    token.accept(mismatchedStartCloseTag, pos)
   } else if (next != 33 /* '!' */ && next != 63 /* '?' */) {
-    return token.accept(StartTag, token.start + 1)
+    return token.accept(StartTag, pos)
   }
-}, {contextual: true})
+})
 
 function scanTo(type, end) {
-  return new ExternalTokenizer((input, token, stack) => {
+  return new ExternalTokenizer((input, token) => {
     let pos = token.start, endPos = 0
     for (;;) {
       let next = input.get(pos)
@@ -62,7 +81,6 @@ function scanTo(type, end) {
     if (pos > token.start) token.accept(type, pos)
   })
 }
-
 
 export const commentContent = scanTo(_commentContent, "-->")
 export const piContent = scanTo(_piContent, "?>")

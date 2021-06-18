@@ -13,11 +13,11 @@ entity {
 }
 
 Element {
-  OpenTag entity* CloseTag |
+  OpenTag entity* (CloseTag | MissingCloseTag) |
   SelfClosingTag
 }
 
-OpenTag[closedBy=CloseTag] {
+OpenTag[closedBy="CloseTag MissingCloseTag"] {
   StartTag space* TagName space* (Attribute space*)* EndTag
 }
 
@@ -54,6 +54,7 @@ Cdata { cdataStart cdataContent* "]]>" }
 @external tokens startTag from "./tokens.js" {
   StartTag[closedBy="SelfCloseEndTag EndTag"]
   StartCloseTag
+  MissingCloseTag
   mismatchedStartCloseTag[@name=StartCloseTag]
   incompleteStartCloseTag[@name=StartCloseTag]
 }

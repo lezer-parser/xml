@@ -101,7 +101,7 @@ Document(Element(OpenTag(StartTag,TagName,EndTag),
   Element(OpenTag(StartTag,TagName,EndTag),
     Element(OpenTag(StartTag,TagName,EndTag),CloseTag(StartCloseTag,TagName,EndTag)),
     MismatchedCloseTag(StartCloseTag,TagName,EndTag),
-    ⚠),
+    MissingCloseTag),
   CloseTag(StartCloseTag,TagName,EndTag)))
 
 # Mismatched tag with whitespace
@@ -120,5 +120,6 @@ Document(Element(OpenTag(StartTag,TagName,EndTag),
   Element(OpenTag(StartTag,TagName,Attribute(AttributeName,Is,AttributeValue),EndTag),
     Text,
     MismatchedCloseTag(StartCloseTag,TagName,EndTag),
-    Text,⚠),
+    Text,
+    MissingCloseTag),
   CloseTag(StartCloseTag,TagName,EndTag)))

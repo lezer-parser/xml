@@ -1,6 +1,6 @@
 /* Hand-written tokenizer for XML tag matching. */
 
-import {ExternalTokenizer, ContextTracker} from "lezer"
+import {ExternalTokenizer, ContextTracker} from "@lezer/lr"
 import {StartTag, StartCloseTag, mismatchedStartCloseTag, incompleteStartCloseTag, MissingCloseTag, Element, OpenTag,
         commentContent as _commentContent, piContent as _piContent, cdataContent as _cdataContent} from "./parser.terms.js"
 

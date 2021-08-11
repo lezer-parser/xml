@@ -1,3 +1,11 @@
+## 0.15.0 (2021-08-11)
+
+### Breaking changes
+
+The module's name changed from `lezer-xml` to `@lezer/xml`.
+
+Upgrade to the 0.15.0 lezer interfaces.
+
 ## 0.13.4 (2021-02-17)
 
 ### Bug fixes

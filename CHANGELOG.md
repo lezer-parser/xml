@@ -1,3 +1,9 @@
+## 0.15.1 (2021-10-30)
+
+### Bug fixes
+
+Fix parsing of CDATA sections.
+
 ## 0.15.0 (2021-08-11)
 
 ### Breaking changes

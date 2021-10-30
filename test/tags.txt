@@ -123,3 +123,11 @@ Document(Element(OpenTag(StartTag,TagName,EndTag),
     Text,
     MissingCloseTag),
   CloseTag(StartCloseTag,TagName,EndTag)))
+
+# Cdata
+
+<doc><![CDATA[ hello ]]></doc>
+
+==>
+
+Document(Element(OpenTag(StartTag,TagName,EndTag),Cdata,CloseTag(StartCloseTag,TagName,EndTag)))

@@ -90,4 +90,4 @@ function scanTo(type, end) {
 
 export const commentContent = scanTo(_commentContent, "-->")
 export const piContent = scanTo(_piContent, "?>")
-export const cdataContent = scanTo(_cdataContent, "?>")
+export const cdataContent = scanTo(_cdataContent, "]]>")

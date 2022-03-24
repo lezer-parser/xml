@@ -97,4 +97,6 @@ Cdata { cdataStart cdataContent* "]]>" }
   space { (" " | "\t" | "\r" | "\n")+ }
 }
 
+@external propSource xmlHighlighting from "./highlight"
+
 @detectDelim

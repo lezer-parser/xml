@@ -1,4 +1,4 @@
-@top Document { misc (DoctypeDecl misc)? (Element misc)+ }
+@top Document { (entity | DoctypeDecl)+ }
 
 entity {
   Text |
@@ -35,10 +35,6 @@ MismatchedCloseTag {
 
 Attribute {
   AttributeName space* Is space* AttributeValue
-}
-
-misc {
-  (Comment | space | ProcessingInst)*
 }
 
 AttributeValue { "\"" (attributeContent | EntityReference | CharacterReference)* "\"" }

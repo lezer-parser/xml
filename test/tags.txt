@@ -64,7 +64,7 @@ CloseTag(StartCloseTag,TagName,EndTag)))
 
 ==>
 
-Document(DoctypeDecl,Element(SelfClosingTag(StartTag,TagName,SelfCloseEndTag)))
+Document(DoctypeDecl,Text,Element(SelfClosingTag(StartTag,TagName,SelfCloseEndTag)))
 
 # Processing instructions
 
@@ -81,7 +81,7 @@ Document(ProcessingInst,Element(OpenTag(StartTag,TagName,EndTag),ProcessingInst,
 
 ==>
 
-Document(Comment,Element(OpenTag(StartTag,TagName,EndTag),Comment,Text,CloseTag(StartCloseTag,TagName,EndTag)))
+Document(Comment,Text,Element(OpenTag(StartTag,TagName,EndTag),Comment,Text,CloseTag(StartCloseTag,TagName,EndTag)))
 
 # Mismatched tag
 

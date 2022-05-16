@@ -81,7 +81,7 @@ function scanTo(type, end) {
           break
         }
       } else {
-        endPos = 0
+        endPos = input.next == end.charCodeAt(0) ? 1 : 0
       }
       input.advance()
     }

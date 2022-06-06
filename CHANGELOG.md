@@ -1,3 +1,13 @@
+## 1.0.0 (2022-06-06)
+
+### Bug fixes
+
+Fix a bug that would cause the tokenizer to miss `]]>` and `-->` tokens when they were preceded by `]` or `-`.
+
+### New features
+
+First stable version.
+
 ## 0.16.0 (2022-04-20)
 
 ### Breaking changes

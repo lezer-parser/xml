@@ -77,7 +77,7 @@ function scanTo(type, end) {
       if (input.next == end.charCodeAt(endPos)) {
         endPos++
         if (endPos == end.length) {
-          if (len > end.length) input.acceptToken(type, 1 - end.length)
+          if (len >= end.length) input.acceptToken(type, 1 - end.length)
           break
         }
       } else {

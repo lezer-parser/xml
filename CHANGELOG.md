@@ -1,3 +1,9 @@
+## 1.0.1 (2022-12-19)
+
+### Bug fixes
+
+Fix a bug where single-character comments, processing instructions, and CDATA blocks were not parsed correctly.
+
 ## 1.0.0 (2022-06-06)
 
 ### Bug fixes

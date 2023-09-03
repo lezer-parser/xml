@@ -1,5 +1,5 @@
 import {parser} from "../dist/index.js"
-import {fileTests} from "@lezer/generator/dist/test"
+import {fileTests, testTree} from "@lezer/generator/dist/test"
 
 import * as fs from "fs"
 import * as path from "path"
@@ -12,5 +12,9 @@ for (let file of fs.readdirSync(caseDir)) {
   describe(name, () => {
     for (let {name, run} of fileTests(fs.readFileSync(path.join(caseDir, file), "utf8"), file))
       it(name, () => run(parser))
+  })
+  it("InvalidEntities", () => {
+    testTree(parser.parse("&"), "Document(⚠)")
+    testTree(parser.parse("&amp&;"), "Document(⚠,Text,⚠,Text)")
   })
 }

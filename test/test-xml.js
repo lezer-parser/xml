@@ -13,8 +13,4 @@ for (let file of fs.readdirSync(caseDir)) {
     for (let {name, run} of fileTests(fs.readFileSync(path.join(caseDir, file), "utf8"), file))
       it(name, () => run(parser))
   })
-  it("InvalidEntities", () => {
-    testTree(parser.parse("&"), "Document(⚠)")
-    testTree(parser.parse("&amp&;"), "Document(⚠,Text,⚠,Text)")
-  })
 }

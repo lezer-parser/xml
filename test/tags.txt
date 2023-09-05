@@ -57,6 +57,14 @@ Document(Element(OpenTag(StartTag,TagName,
   CharacterReference,
 CloseTag(StartCloseTag,TagName,EndTag)))
 
+# Invalid Entities
+
+&amp&;
+
+==>
+
+Document(⚠,Text,⚠,Text)
+
 # Doctype
 
 <!doctype html>

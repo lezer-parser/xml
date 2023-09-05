@@ -87,7 +87,7 @@ Cdata { cdataStart cdataContent* "]]>" }
    // See https://www.w3.org/TR/2006/REC-xml11-20060816/#sec-references
    EntityReference { "&" identifier ";" }
 
-  CharacterReference { ("&#x" $[0-9a-fA-F]+ ";" | "&#" $[0-9]+ ";") }
+  CharacterReference { "&#" ("x" $[0-9a-fA-F]+ | $[0-9]+) ";" }
 
   Text { ![<&]+ }
 

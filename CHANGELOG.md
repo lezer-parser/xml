@@ -1,3 +1,11 @@
+## 1.0.3 (2023-10-26)
+
+### Bug fixes
+
+The parser is now more precise about what is parsed as an entity.
+
+Fix a bug that caused the end of a CDATA block, comment, or processing instruction to not be recognized when the character starting the end marker occured right before it.
+
 ## 1.0.2 (2023-07-03)
 
 ### Bug fixes

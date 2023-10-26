@@ -86,7 +86,7 @@ Document(ProcessingInst,Element(OpenTag(StartTag,TagName,EndTag),ProcessingInst,
 
 <!-- top comment -->
 <element><!-- inner comment --> text</element>
-<!--c-->
+<!--c--->
 
 ==>
 
@@ -135,7 +135,7 @@ Document(Element(OpenTag(StartTag,TagName,EndTag),
 
 # Cdata
 
-<doc><![CDATA[ hello ]]></doc>
+<doc><![CDATA[ hello ]]]></doc>
 
 ==>
 

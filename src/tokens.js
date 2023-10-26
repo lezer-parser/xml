@@ -69,22 +69,16 @@ export const startTag = new ExternalTokenizer((input, stack) => {
 
 function scanTo(type, end) {
   return new ExternalTokenizer(input => {
-    for (let endPos = 0, len = 0;; len++) {
-      if (input.next < 0) {
-        if (len) input.acceptToken(type)
+    let len = 0, first = end.charCodeAt(0)
+    scan: for (;; input.advance(), len++) {
+      if (input.next < 0) break
+      if (input.next == first) {
+        for (let i = 1; i < end.length; i++)
+          if (input.peek(i) != end.charCodeAt(i)) continue scan
         break
-      } 
-      if (input.next == end.charCodeAt(endPos)) {
-        endPos++
-        if (endPos == end.length) {
-          if (len >= end.length) input.acceptToken(type, 1 - end.length)
-          break
-        }
-      } else {
-        endPos = input.next == end.charCodeAt(0) ? 1 : 0
       }
-      input.advance()
     }
+    if (len) input.acceptToken(type)
   })
 }
 

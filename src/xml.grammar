@@ -17,19 +17,19 @@ Element {
   SelfClosingTag
 }
 
-OpenTag[closedBy="CloseTag MissingCloseTag"] {
+OpenTag[closedBy="CloseTag MissingCloseTag",isolate] {
   StartTag space* TagName space* (Attribute space*)* EndTag
 }
 
-SelfClosingTag {
+SelfClosingTag[isolate] {
   StartTag space* TagName space* (Attribute space*)* SelfCloseEndTag
 }
 
-CloseTag[openedBy=OpenTag] {
+CloseTag[openedBy=OpenTag,isolate] {
   StartCloseTag space* TagName space* EndTag
 }
 
-MismatchedCloseTag {
+MismatchedCloseTag[isolate] {
   mismatchedStartCloseTag space* TagName space* EndTag
 }
 
@@ -37,9 +37,9 @@ Attribute {
   AttributeName space* Is space* AttributeValue
 }
 
-AttributeValue { "\"" (attributeContent | EntityReference | CharacterReference)* "\"" }
+AttributeValue[isolate] { "\"" (attributeContent | EntityReference | CharacterReference)* "\"" }
 
-Comment { "<!--" commentContent* "-->" }
+Comment[isolate] { "<!--" commentContent* "-->" }
 
 ProcessingInst { "<?" piContent* "?>" }
 

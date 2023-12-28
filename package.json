@@ -1,6 +1,6 @@
 {
   "name": "@lezer/xml",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "lezer-based XML grammar",
   "main": "dist/index.cjs",
   "type": "module",

@@ -1,3 +1,9 @@
+## 1.0.4 (2023-12-28)
+
+### Bug fixes
+
+Mark tags, attributes, and comments as isolating for bidirectional text.
+
 ## 1.0.3 (2023-10-26)
 
 ### Bug fixes

@@ -1,3 +1,9 @@
+## 1.0.5 (2024-03-04)
+
+### Bug fixes
+
+Fix a mistake that broke highlighting for mismatched tag names.
+
 ## 1.0.4 (2023-12-28)
 
 ### Bug fixes

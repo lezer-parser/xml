@@ -4,7 +4,7 @@ export const xmlHighlighting = styleTags({
   Text: t.content,
   "StartTag StartCloseTag EndTag SelfCloseEndTag": t.angleBracket,
   TagName: t.tagName,
-  "MismatchedCloseTag/Tagname": [t.tagName, t.invalid],
+  "MismatchedCloseTag/TagName": [t.tagName, t.invalid],
   AttributeName: t.attributeName,
   AttributeValue: t.attributeValue,
   Is: t.definitionOperator,

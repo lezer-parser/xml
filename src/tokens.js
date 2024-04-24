@@ -31,8 +31,6 @@ function tagNameAfter(input, offset) {
 function ElementContext(name, parent) {
   this.name = name
   this.parent = parent
-  this.hash = parent ? parent.hash : 0
-  for (let i = 0; i < name.length; i++) this.hash += (this.hash << 4) + name.charCodeAt(i) + (name.charCodeAt(i) << 8)
 }
 
 export const elementContext = new ContextTracker({
@@ -48,7 +46,6 @@ export const elementContext = new ContextTracker({
     return type == StartTag || type == OpenTag
       ? new ElementContext(tagNameAfter(input, 1) || "", context) : context
   },
-  hash(context) { return context ? context.hash : 0 },
   strict: false
 })
 

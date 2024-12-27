@@ -1,3 +1,9 @@
+## 1.0.6 (2024-12-27)
+
+### Bug fixes
+
+Support single-quoted attribute values.
+
 ## 1.0.5 (2024-03-04)
 
 ### Bug fixes

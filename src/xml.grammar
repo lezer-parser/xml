@@ -37,7 +37,10 @@ Attribute {
   AttributeName space* Is space* AttributeValue
 }
 
-AttributeValue[isolate] { "\"" (attributeContent | EntityReference | CharacterReference)* "\"" }
+AttributeValue[isolate] {
+  "\"" (attributeContentDouble | EntityReference | CharacterReference)* "\"" |
+  "\'" (attributeContentSingle | EntityReference | CharacterReference)* "\'"
+}
 
 Comment[isolate] { "<!--" commentContent* "-->" }
 
@@ -80,7 +83,9 @@ Cdata { cdataStart cdataContent* "]]>" }
 
   AttributeName { identifier }
 
-  attributeContent { !["&]+ }
+  attributeContentDouble { !["&]+ }
+
+  attributeContentSingle { !['&]+ }
 
   Is { "=" }
 

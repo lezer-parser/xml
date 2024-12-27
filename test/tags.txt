@@ -25,7 +25,7 @@ Document(Element(OpenTag(StartTag,TagName,EndTag),
   Element(SelfClosingTag(StartTag,TagName,SelfCloseEndTag)),
 CloseTag(StartCloseTag,TagName,EndTag)))
 
-# Attribute
+# Attribute (double-quote)
 
 <a foo="bar"/>
 
@@ -33,13 +33,23 @@ CloseTag(StartCloseTag,TagName,EndTag)))
 
 Document(Element(SelfClosingTag(StartTag,TagName,Attribute(AttributeName,Is,AttributeValue),SelfCloseEndTag)))
 
-# Multiple attributes
+# Attribute (apostrophe or single-quote)
 
-<a x="one" y="two" z="three"></a>
+<a foo='bar'/>
+
+==>
+
+Document(Element(SelfClosingTag(StartTag,TagName,Attribute(AttributeName,Is,AttributeValue),SelfCloseEndTag)))
+
+
+# Multiple attributes (mixed quotes)
+
+<a b="one" c='two' d="three" e='four' ></a>
 
 ==>
 
 Document(Element(OpenTag(StartTag,TagName,
+  Attribute(AttributeName,Is,AttributeValue),
   Attribute(AttributeName,Is,AttributeValue),
   Attribute(AttributeName,Is,AttributeValue),
   Attribute(AttributeName,Is,AttributeValue),EndTag),

@@ -24,8 +24,8 @@
     "@lezer/highlight": "^1.0.0"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/lezer-parser/xml.git"
+    "type": "git",
+    "url": "git+https://code.haverbeke.berlin/lezer/xml.git"
   },
   "scripts": {
     "build": "lezer-generator src/xml.grammar -o src/parser && rollup -c",

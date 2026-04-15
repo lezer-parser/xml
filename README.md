@@ -1,3 +1,5 @@
+**This repository has moved to https://code.haverbeke.berlin/lezer/xml**
+
 # @lezer/xml
 
 This is an XML grammar for the
